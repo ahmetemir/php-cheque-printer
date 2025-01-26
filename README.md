@@ -1,11 +1,23 @@
 Checks
 ======
+![alt text](image.png)
 
 This is a horrible mess of code that generates a PDF of checks that you can print out on check paper.
 
-To use it, edit `checks.php` and fill in your bank details, routing number, account number, etc. You can optionally include pay-to information as well.
+To use it, edit `index.php` and fill in your bank details, routing number, account number, etc. You can optionally include pay-to information as well.
 
 There are almost certainly better ways of doing this, like using an actual program designed for this purpose. However, I've been using this code for almost 10 years now, and is for some reason the easiest way for me to print checks.
+
+## Installing
+### Ubuntu
+```bash
+sudo apt install php-cli
+```
+
+## Running
+```bash
+php -S 127.0.0.1:8000
+```
 
 Check Paper
 -----------
