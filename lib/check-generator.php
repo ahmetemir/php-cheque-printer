@@ -64,11 +64,13 @@ class CheckGenerator {
 		$logo_width = 0.2; // cyan
 		$logo_width = 0.5; // marvelous labs
 		
-
+		// Create a PDF with inches as the unit
 		$pdf=new FPDF('P','in',array($page_width,$page_height));
+		
 		$pdf->AddFont('Twcen','','twcen.php');
 		$pdf->AddFont('Micr','','micr.php');
 		$pdf->AddFont('Courier','','courier.php');
+		
 		$pdf->SetMargins($left_margin,$top_margin);
 		$pdf->SetDisplayMode("fullpage","continuous");
 		$pdf->AddPage();
