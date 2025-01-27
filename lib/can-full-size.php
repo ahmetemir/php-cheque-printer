@@ -69,13 +69,8 @@ class CheckGenerator
         $cell_bot  = 0.25;
 
         ////////////////////////////
-
-        $img_ratio = 1.4; // loqisaur
-        $img_ratio = .47; // cyan
-        $img_ratio = 1.71; // marvelous labs
-        $logo_width = 0.66; // loqisaur
-        $logo_width = 0.2; // cyan
-        $logo_width = 0.5; // marvelous labs
+        $my_logo_width = 0.3;
+        $bank_logo_width = 0.3;
 
         // Create a PDF with inches as the unit
         $pdf = new FPDF('P', 'in', array($page_width, $page_height));
@@ -94,7 +89,6 @@ class CheckGenerator
             // calculate coordinates of top-left corner of current cell
             //    margin        cell offset
             $x = $left_margin + (($pos % $columns) * ($label_width + $gutter));
-            // error_log("LOG:" . $pos % $columns);
             //    margin        cell offset
             $top_edge = $top_margin  + (floor($pos / $columns) * $label_height);
 
@@ -114,16 +108,18 @@ class CheckGenerator
             $pdf->SetXY($leading_edge - 1.5, $top_edge + 0.25);
             $pdf->Cell(0, 0, $check['check_number'], 0, 'R');
 
+
+            // Your logo
             $logo_offset = 0;  // offset to print name if logo is inserted
-            if (array_key_exists('logo', $check) && $check['logo'] != "") {
+            if (array_key_exists('my_logo', $check) && $check['my_logo'] != "") {
                 // logo should be: 0.71" x 0.29"
-                $logo_offset = $logo_width + 0.005;  // width of logo
-                $pdf->Image($check['logo'], $x + $cell_left, $top_edge + $cell_top + .12, $logo_width);
-            }
+                $logo_offset = $my_logo_width + 0.005;  // width of logo
+                $pdf->Image($check['my_logo'], $x + $cell_left, $top_edge + $cell_top + .12, $my_logo_width);
+            } 
 
             $pdf->SetFont('Twcen', '', 8);
 
-            // name
+            // Your name
             $pdf->SetXY($x + $cell_left + $logo_offset, $top_edge + $cell_top + .1);
             $pdf->SetFont('Twcen', '', 10);
             $pdf->Cell(2, 0.15, strtoupper($check['from_name']), 0, 2);
@@ -141,7 +137,6 @@ class CheckGenerator
             $date_str = $this->matchcase($check['from_name'], "DATE");
             $pdf->Cell(0, 0.1, $date_str);
 
-            $length_of_line = 5.5;
 
             // convenience amount rectangle
             $con_amount_width = 0.3;
@@ -154,8 +149,9 @@ class CheckGenerator
             $pdf->Rect($con_box_start_x, $con_box_start_y, $con_amount_length, $con_amount_width);
 
             // pay to the order of
+            $pay_order_line_length = 5.5;
             $pay_order_name_line = $con_box_start_y + 0.28;
-            $pdf->Line($x + $cell_left, $pay_order_name_line, $x + $cell_left + $length_of_line, $pay_order_name_line);
+            $pdf->Line($x + $cell_left, $pay_order_name_line, $x + $cell_left + $pay_order_line_length, $pay_order_name_line);
             $pdf->SetXY($x + $cell_left, $pay_order_name_line - 0.2);
 
             $pay_str = strtoupper("pay to the order of");
@@ -175,7 +171,7 @@ class CheckGenerator
 
             // written amount line
             $written_amt_line_offset = $top_edge + 1.7;
-            $written_amount_line_length = $length_of_line + 2;
+            $written_amount_line_length = $pay_order_line_length + 2;
             $pdf->SetFont('Twcen', '', 10);
             $pdf->Line($x + $cell_left, $written_amt_line_offset, $x + $cell_left + $written_amount_line_length, $written_amt_line_offset);
 
@@ -190,8 +186,17 @@ class CheckGenerator
 
             // bank info content
             $pdf->SetFont('Twcen', '', 8);
+            
+            // Bank Logo
+            $bank_logo_offset = 0;  // offset to print name if logo is inserted
+            if (array_key_exists('bank_logo', $check) && $check['bank_logo'] != "") {
+                // logo should be: 0.71" x 0.29"
+                $bank_logo_offset = $bank_logo_width + 0.005;  // width of logo
+                $pdf->Image($check['bank_logo'], $x + $cell_left, $written_amt_line_offset + 0.1, $bank_logo_width);
+            }
+
             // dynamic, y position follows $written_amt_line_offset so it's under the line
-            $pdf->SetXY($x + $cell_left, $written_amt_line_offset + 0.1);
+            $pdf->SetXY($x + $cell_left + $bank_logo_offset, $written_amt_line_offset + 0.1);
             $pdf->Cell(2, 0.1, strtoupper($check['bank_1']), 0, 2);
             $pdf->Cell(2, 0.1, strtoupper($check['bank_2']), 0, 2);
             $pdf->Cell(2, 0.1, strtoupper($check['bank_3']), 0, 2);
@@ -337,6 +342,7 @@ class CheckGenerator
         return str_repeat(' ', $numSpaces);
     }
 
+    // pads the amount text with asterisks to reach 80 characters
     function getAsterisks($input)
     {
         $maxLength = 80;

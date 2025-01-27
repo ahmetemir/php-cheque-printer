@@ -4,10 +4,38 @@ include("lib/can-full-size.php");
 
 $CHK = new CheckGenerator;
 
-$check['logo'] = "";
+function setBankLogo(&$check)
+{
+  // Define a mapping of transit numbers to logo file paths
+  $logoMap = [
+    "001" => "logos/bmo.png",
+    "002" => "logos/bns.png",
+    "003" => "logos/rbc.png",
+    "004" => "logos/td.png",
+    "006" => "logos/nbc.png",
+    "010" => "logos/cibc.png"
+  ];
+
+  // Log the institution number for debugging
+  error_log("inst number: " . $check['inst_number']);
+
+  // Check if the institution number exists in the mapping
+  if (isset($check['inst_number']) && array_key_exists($check['inst_number'], $logoMap)) {
+    $check['bank_logo'] = $logoMap[$check['inst_number']];
+  } else {
+    error_log('Nothing found');
+    // Set a default logo if the inst number is not found
+    $check['bank_logo'] = "";
+  }
+}
+
+$check['inst_number'] = "002";
+setBankLogo($check);
+
+$check['my_logo'] = "";
 $check['from_name'] = "Your Name";
 
-$check['from_address1'] = "234 Bay Street";
+$check['from_address1'] = "234 Bay eStreet";
 $check['from_address2'] = "Toronto, ON M5K 1B2";
 
 $check['transit_number'] = "12345";
@@ -21,7 +49,6 @@ $check['transit_number'] = "12345";
 // DESJ - 123-123-1
 // CU - 12345678-123
 $check['account_number'] = "123-456-789";
-$check['inst_number'] = "001";
 
 $check['bank_1'] = "Bank of Canada";
 $check['bank_2'] = "234 Wellington Street";
