@@ -55,14 +55,14 @@ class CheckGenerator
         $page_width = 8.5;
         $page_height = 11;
 
-        $top_margin = 0;
+        $top_margin = 0.25;
         $left_margin = 0.25;
 
         $columns = 1;
         $gutter = 3 / 16;
         $rows = 3;      // only used for making page breaks, no position calculations
 
-        $label_height = 3.7;
+        $label_height = $page_height / 3 - $top_margin;
         $label_width  = 8.5;
 
         // cell margins
@@ -92,36 +92,43 @@ class CheckGenerator
 
         $lpos = 0;
         foreach ($this->checks as $check) {
-
             $pos = $lpos % ($rows * $columns);
-
             // calculate coordinates of top-left corner of current cell
             //    margin        cell offset
             $x = $left_margin + (($pos % $columns) * ($label_width + $gutter));
+            // error_log("LOG:" . $pos % $columns);
             //    margin        cell offset
-            $y = $top_margin  + (floor($pos / $columns) * $label_height);
-
-
-            /////////////////
+            $top_edge = $top_margin  + (floor($pos / $columns) * $label_height);
+            
+            
             // set up check template
-
             $pdf->SetFont('Twcen', '', 11);
+            
+            // bottom side 
+            $aligning_edge = $top_edge + $label_height + $top_margin + 0.25;
+            error_log("top edge:" . $top_edge);
+            error_log("aligning edge:" . $aligning_edge);
+            
+            // right side
+            $leading_edge = 8.5;
+            
+            $pdf->Line(0, $top_margin, $leading_edge, $top_margin);
 
             // print check number
-            $pdf->SetXY($x + 6.5, $y + 0.2);
-            $pdf->Cell(1, (11 / 72), $check['check_number'], 0, 'R');
+            $pdf->SetXY($leading_edge - 1.5, $top_edge + 0.25);
+            $pdf->Cell(0, 0, $check['check_number'], 0, 'R');
 
             $logo_offset = 0;  // offset to print name if logo is inserted
             if (array_key_exists('logo', $check) && $check['logo'] != "") {
                 // logo should be: 0.71" x 0.29"
                 $logo_offset = $logo_width + 0.005;  // width of logo
-                $pdf->Image($check['logo'], $x + $cell_left, $y + $cell_top + .12, $logo_width);
+                $pdf->Image($check['logo'], $x + $cell_left, $top_edge + $cell_top + .12, $logo_width);
             }
 
             $pdf->SetFont('Twcen', '', 8);
 
             // name
-            $pdf->SetXY($x + $cell_left + $logo_offset, $y + $cell_top + .1);
+            $pdf->SetXY($x + $cell_left + $logo_offset, $top_edge + $cell_top + .1);
             $pdf->SetFont('Twcen', '', 10);
             $pdf->Cell(2, (10 / 72), strtoupper($check['from_name']), 0, 2);
             $pdf->SetFont('Twcen', '', 8);
@@ -130,38 +137,50 @@ class CheckGenerator
 
             // date
             $pdf->SetFont('Twcen', '', 8);
-            $pdf->Line($x + 5, $y + .58, $x + 6.3, $y + .58);
+            $pdf->Line($leading_edge - 2, $top_edge + .6, $leading_edge - 0.7, $top_edge + .6);
             // date label
-            $pdf->SetXY($x + 5, $y + .48);
+            $pdf->SetXY($leading_edge - 2, $top_edge + .5);
             $date_str = $this->matchcase($check['from_name'], "DATE");
-            $pdf->Cell(1, (7 / 72), $date_str);
+            $pdf->Cell(0, (7 / 72), $date_str);
 
+            $length_of_line = 5.5;
 
-
-            $length_of_line = 5.75;
             // pay to the order of
-            $pdf->Line($x + $cell_left, $y + 1.1, $x + $cell_left + $length_of_line, $y + 1.1);
-            $pdf->SetXY($x + $cell_left, $y + .88);
+            $pay_order_name_line = $top_edge + 1.2;
+            $pdf->Line($x + $cell_left, $pay_order_name_line, $x + $cell_left + $length_of_line, $pay_order_name_line);
+            
+            $pdf->SetXY($x + $cell_left, $top_edge + 1);
+
             $pay_str = strtoupper("pay to the order of");
             $pdf->MultiCell(0.7, (7 / 72), $pay_str, 0);
 
+            // convenience amount rectangle
+            $con_amount_width = 0.3;
+            $con_amount_length = 1.1;
+
+            // this is the real aligning edge after accounting for margins
+            $aligning_edge_content = $aligning_edge - 0.5;
+            $con_box_start_x = $leading_edge - $con_amount_length - 0.65;
+            $con_box_start_y = $aligning_edge_content - 2.75 + 0.25;
+            $pdf->Rect($con_box_start_x, $con_box_start_y, $con_amount_length, $con_amount_width);
 
             // dollar sign
             $pdf->SetFont('Twcen', '', 16);
-            // X coordinate
-            $pdf->Cell(6.3);
-            $pdf->Cell(-.25, -.15, '$');
+            $pdf->SetXY($con_box_start_x - 0.2, $con_box_start_y + 0.15);
+            $pdf->Cell(0, 0, '$');
 
             //set font back to twcen
             $pdf->SetFont('Twcen', '', 8);
 
-            // convenience amount rectangle
-            $pdf->Rect($x + 6.5, $y + .85, 1.1, .3);
+            //seperator between cheques
+            $pdf->Line(0, $aligning_edge_content, $leading_edge, $aligning_edge_content);
+            // $pdf->Rect($x + 6.5, $top_edge + .85, $con_amount_length, $con_amount_width);
 
             // written amount
+            $written_amt_line_offset = $top_edge + 1.6;
             $pdf->SetFont('Twcen', '', 10);
-            $pdf->Line($x + $cell_left, $y + 1.6, $x + $cell_left + $length_of_line + 1, $y + 1.6);
-            $pdf->SetXY($x + $cell_left + 3.75, $y + 1.5);
+            $pdf->Line($x + $cell_left, $written_amt_line_offset, $x + $cell_left + $length_of_line + 1, $written_amt_line_offset);
+            $pdf->SetXY($x + $cell_left + 3.75, $top_edge + 1.5);
 
             // Dollars text
             $dollar_str = "DOLLARS";
@@ -169,7 +188,7 @@ class CheckGenerator
 
             // bank info content
             $pdf->SetFont('Twcen', '', 8);
-            $pdf->SetXY($x + $cell_left, $y + 1.7);
+            $pdf->SetXY($x + $cell_left, $top_edge + 1.7);
             $pdf->Cell(2, (7 / 72), strtoupper($check['bank_1']), 0, 2);
             $pdf->Cell(2, (7 / 72), strtoupper($check['bank_2']), 0, 2);
             $pdf->Cell(2, (7 / 72), strtoupper($check['bank_3']), 0, 2);
@@ -178,26 +197,26 @@ class CheckGenerator
 
             // memo heading
             $pdf->SetFont('Twcen', '', 8);
-            $pdf->Line($x + $cell_left, $y + 2.325, $x + $cell_left + 2.9, $y + 2.325);
-            $pdf->SetXY($x + $cell_left, $y + 2.225);
+            $pdf->Line($x + $cell_left, $top_edge + 2.325, $x + $cell_left + 2.9, $top_edge + 2.325);
+            $pdf->SetXY($x + $cell_left, $top_edge + 2.225);
             $memo_str = "MEMO";
             $pdf->Cell(1, (7 / 72), $memo_str);
 
             // signature line
-            $pdf->Line($x + 4.25, $y + 2.325, $x + 5 + 2.375, $y + 2.325);
+            $pdf->Line($x + 4.25, $top_edge + 2.325, $x + 5 + 2.375, $top_edge + 2.325);
 
             ///////////////// CONTENT ////////////////
             $pdf->SetFont('Courier', '', 11);
 
             // date content
             if ($check['date'] != "") {
-                $pdf->SetXY($x + 5 + .3, $y + .38);
-                $pdf->Cell(1, .25, $check['date']);
+                $pdf->SetXY($leading_edge - 1.65, $top_edge + 0.53);
+                $pdf->Cell(0, 0, $check['date']);
             }
 
             // pay to content
             if ($check['pay_to'] != "") {
-                $pdf->SetXY($x + $cell_left + 1, $y + .88);
+                $pdf->SetXY($x + $cell_left + 1, $top_edge + .88);
                 $pdf->Cell(1, .25, $check['pay_to']);
             }
 
@@ -217,42 +236,42 @@ class CheckGenerator
 
                 // written amount formatting
                 $pdf->SetFont('Courier', '', 9);
-                $pdf->SetXY($x + $cell_left, $y + 1.4);
+                $pdf->SetXY($x + $cell_left, $top_edge + 1.4);
                 $pdf->Cell(1, .25, $amt_string);
 
                 # box amount content
                 $amt = number_format($check['amount'], 2);
-                $pdf->SetXY($x + 4.5 + 2.1, $y + .83);
+                $pdf->SetXY($x + 4.5 + 2.1, $top_edge + .83);
                 $pdf->Cell(1, 0.35, $amt);
             }
 
             // memo content
             $pdf->SetFont('Courier', '', 8);
-            $pdf->SetXY($x + $cell_left + 0.5, $y + 2.15);
+            $pdf->SetXY($x + $cell_left + 0.5, $top_edge + 2.15);
             $pdf->Cell(1, .2, $check['memo']);
             $pdf->SetFont('Courier', '', 11);
 
             // routing and account number
-            $pdf->SetFont('Micr', '', 10);
             // t = transit number symbol
             // o = on-us symbol
             // d = dash
-            $routingstring = "o" . $check['check_number'] . "o   t" . $check['transit_number'] . "d" . $check['inst_number'] . "t  " . $this->replaceDashesWithD($check['account_number']) . "o";
+            $pdf->SetFont('Micr', '', 10);
+            $routingstring = "o" . $check['check_number'] . "o   t" . $check['transit_number'] . "d" . $check['inst_number'] . "t" . $this->getSpacesByInstitution($check['inst_number']) . $this->replaceDashesWithD($check['account_number']) . "o";
             if (array_key_exists('codeline', $check))
                 $routingstring = $check['codeline'];
-
-            $pdf->SetXY($x + $cell_left, $y + 2.65);
-            $pdf->Cell(5, 0.16, $routingstring);
+            
+            $pdf->SetXY(1, $aligning_edge - 5/8 - 0.25);
+            $pdf->Cell(0, 0, $routingstring);
 
 
             // signature
             if (substr($check['signature'], -3) == 'png') {
                 $sig_offset = 1.75;  // width of signature
-                $pdf->Image($check['signature'], $x + $cell_left + 3.4, $y + 1.88, $sig_offset);
+                $pdf->Image($check['signature'], $x + $cell_left + 3.4, $top_edge + 1.88, $sig_offset);
             } else {
                 $pdf->SetFont('Arial', 'i', 10);
                 if ($check['signature'] != "") {
-                    $pdf->SetXY($x + $cell_left + 3.4, $y + 2.01);
+                    $pdf->SetXY($x + $cell_left + 3.4, $top_edge + 2.01);
                     $pdf->Cell(1, .25, $check['signature']);
                 }
             }
@@ -282,5 +301,29 @@ class CheckGenerator
     function replaceDashesWithD($accountNumber)
     {
         return str_replace('-', 'd', $accountNumber);
+    }
+
+    // defines separation between inst number and account number
+    function getSpacesByInstitution($institutionNumber)
+    {
+        $spacesMap = [
+            '001' => 2, // BMO
+            '002' => 1, // BNS
+            '003' => 3, // RBC
+            '004' => 1, // TD
+            '006' => 3, // NBC
+            '010' => 1, // CIBC
+            '815' => 3, // DESJ
+            '828' => 0, // CU
+        ];
+
+        // Default spaces if the institution number is not found
+        $defaultSpaces = 3;
+
+        // Get the number of spaces for the given institution number or fallback to default
+        $numSpaces = $spacesMap[$institutionNumber] ?? $defaultSpaces;
+
+        // Return the spaces as a string
+        return str_repeat(' ', $numSpaces);
     }
 }

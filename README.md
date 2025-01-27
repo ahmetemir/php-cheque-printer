@@ -13,10 +13,10 @@ Go in person and have to pay? How about no?
 With this method, you can print your own cheques for an unlimited number of accounts and deposit them via your bank's mobile app so you don't need to leave your house.
 ## Features
 
-### Canada Wide
+### Canada Full Size
 > WIP
 
-![alt text](images/can-wide.png)
+![alt text](images/can-full-size.png)
 
 ### Canada Wallet  
 ![alt text](images/can-wallet.png)
@@ -68,7 +68,7 @@ php -S 127.0.0.1:8000
 ```
 
 ### Routes
-- Canada Wide
+- Canada Full Size
     - http://127.0.0.1:8000
 - Canada Wallet
     - http://127.0.0.1:8000/can-wallet.php

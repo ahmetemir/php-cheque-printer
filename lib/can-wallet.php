@@ -233,7 +233,7 @@ class CheckGenerator
             // t = transit number symbol
             // o = on-us symbol
             // d = dash
-            $routingstring = "o" . $check['check_number'] . "o   t" . $check['transit_number'] . "d" . $check['inst_number'] . "t  " . $this->replaceDashesWithD($check['account_number']) . "o";
+            $routingstring = "o" . $check['check_number'] . "o   t" . $check['transit_number'] . "d" . $check['inst_number'] . "t" . $this->getSpacesByInstitution($check['inst_number']) . $this->replaceDashesWithD($check['account_number']) . "o";
             if (array_key_exists('codeline', $check))
                 $routingstring = $check['codeline'];
             $pdf->SetXY($x + $cell_left, $y + 2.47);
@@ -277,5 +277,29 @@ class CheckGenerator
     function replaceDashesWithD($accountNumber)
     {
         return str_replace('-', 'd', $accountNumber);
+    }
+
+    // defines separation between inst number and account number
+    function getSpacesByInstitution($institutionNumber)
+    {
+        $spacesMap = [
+            '001' => 2, // BMO
+            '002' => 1, // BNS
+            '003' => 3, // RBC
+            '004' => 1, // TD
+            '006' => 3, // NBC
+            '010' => 1, // CIBC
+            '815' => 3, // DESJ
+            '828' => 0, // CU
+        ];
+
+        // Default spaces if the institution number is not found
+        $defaultSpaces = 3;
+
+        // Get the number of spaces for the given institution number or fallback to default
+        $numSpaces = $spacesMap[$institutionNumber] ?? $defaultSpaces;
+
+        // Return the spaces as a string
+        return str_repeat(' ', $numSpaces);
     }
 }

@@ -21,7 +21,7 @@ $check['transit_number'] = "12345";
 // CIBC - 12-12345
 // DESJ - 123-123-1
 // CU - 12345678-123
-$check['account_number'] = "123456-789";
+$check['account_number'] = "123-456-789";
 $check['inst_number'] = "001";
 
 $check['bank_1'] = "Bank of Canada";

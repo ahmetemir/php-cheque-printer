@@ -1,10 +1,6 @@
 <?php
 date_default_timezone_set('UTC');
-include("lib/can-wide.php");
-
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
+include("lib/can-full-size.php");
 
 $CHK = new CheckGenerator;
 
@@ -24,7 +20,7 @@ $check['transit_number'] = "12345";
 // CIBC - 12-12345
 // DESJ - 123-123-1
 // CU - 12345678-123
-$check['account_number'] = "123456-789";
+$check['account_number'] = "123-456-789";
 $check['inst_number'] = "001";
 
 $check['bank_1'] = "Bank of Canada";
