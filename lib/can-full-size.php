@@ -4,9 +4,7 @@ require_once dirname(__FILE__) . "/textualnumber.php";
 
 class CheckGenerator
 {
-
     var $checks = array();
-
     function AddCheck($check)
     {
         $required_fields = array(
@@ -189,7 +187,7 @@ class CheckGenerator
             //manually adjust for X pos
             $dollar_text_x_pos = -0.45;
             $pdf->Cell($dollar_text_x_pos, .6, $dollar_str, '', '', 'R');
-            
+
             // bank info content
             $pdf->SetFont('Twcen', '', 8);
             // dynamic, y position follows $written_amt_line_offset so it's under the line
@@ -259,7 +257,7 @@ class CheckGenerator
 
             // memo content
             $pdf->SetFont('Courier', '', 8);
-            $pdf->SetXY($x + $cell_left + 0.5, $memo_sig_offset - 0.2);
+            $pdf->SetXY($x + $cell_left + 0.5, $memo_sig_offset - 0.16);
             $pdf->Cell(1, .2, $check['memo']);
             $pdf->SetFont('Courier', '', 11);
 
