@@ -1,6 +1,6 @@
 <?php
 date_default_timezone_set('UTC');
-include("lib/can-wide.php");
+include("lib/can-wallet.php");
 
 $CHK = new CheckGenerator;
 
@@ -23,7 +23,7 @@ $check['bank_4'] = "";
 $check['signature'] = "";
 
 $check['pay_to'] = "YOUR MOM";
-$check['amount'] = '123456.78';
+$check['amount'] = '12345.56';
 $check['date'] = "2020-01-01";
 $check['memo'] = "TEST";
 

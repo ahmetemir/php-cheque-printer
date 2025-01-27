@@ -10,9 +10,8 @@ class CheckGenerator
     function AddCheck($check)
     {
         $required_fields = array(
-            'transit_number',
+            'routing_number',
             'account_number',
-            'inst_number',
             'check_number',
             'pay_to',
             'amount',
@@ -56,20 +55,21 @@ class CheckGenerator
         $page_height = 11;
 
         $top_margin = 0;
-        $left_margin = 0.25;
+        $left_margin = 2.5;
 
         $columns = 1;
         $gutter = 3 / 16;
         $rows = 3;      // only used for making page breaks, no position calculations
 
-        $label_height = 3.7;
-        $label_width  = 8.5;
+        $label_height = 2.85;
+        $label_width  = 6;
 
         // cell margins
         $cell_left = 0.25;
         $cell_top  = 0.25;
         $cell_bot  = 0.25;
 
+        //
         ////////////////////////////
 
         $img_ratio = 1.4; // loqisaur
@@ -79,13 +79,11 @@ class CheckGenerator
         $logo_width = 0.2; // cyan
         $logo_width = 0.5; // marvelous labs
 
-        // Create a PDF with inches as the unit
-        $pdf = new FPDF('P', 'in', array($page_width, $page_height));
 
+        $pdf = new FPDF('P', 'in', array($page_width, $page_height));
         $pdf->AddFont('Twcen', '', 'twcen.php');
         $pdf->AddFont('Micr', '', 'micr.php');
         $pdf->AddFont('Courier', '', 'courier.php');
-
         $pdf->SetMargins($left_margin, $top_margin);
         $pdf->SetDisplayMode("fullpage", "continuous");
         $pdf->AddPage();
@@ -108,7 +106,7 @@ class CheckGenerator
             $pdf->SetFont('Twcen', '', 11);
 
             // print check number
-            $pdf->SetXY($x + 6.5, $y + 0.2);
+            $pdf->SetXY($x + 5.25, $y + 0.33);
             $pdf->Cell(1, (11 / 72), $check['check_number'], 0, 'R');
 
             $logo_offset = 0;  // offset to print name if logo is inserted
@@ -118,131 +116,112 @@ class CheckGenerator
                 $pdf->Image($check['logo'], $x + $cell_left, $y + $cell_top + .12, $logo_width);
             }
 
-            $pdf->SetFont('Twcen', '', 8);
+            $pdf->SetFont('Twcen', '', 7);
 
             // name
             $pdf->SetXY($x + $cell_left + $logo_offset, $y + $cell_top + .1);
             $pdf->SetFont('Twcen', '', 10);
-            $pdf->Cell(2, (10 / 72), strtoupper($check['from_name']), 0, 2);
-            $pdf->SetFont('Twcen', '', 8);
-            $pdf->Cell(2, (7 / 72), strtoupper($check['from_address1']), 0, 2);
-            $pdf->Cell(2, (7 / 72), strtoupper($check['from_address2']), 0, 2);
+            $pdf->Cell(2, (10 / 72), $check['from_name'], 0, 2);
+            $pdf->SetFont('Twcen', '', 7);
+            $pdf->Cell(2, (7 / 72), $check['from_address1'], 0, 2);
+            $pdf->Cell(2, (7 / 72), $check['from_address2'], 0, 2);
 
             // date
-            $pdf->SetFont('Twcen', '', 8);
-            $pdf->Line($x + 5, $y + .58, $x + 6.3, $y + .58);
-            // date label
-            $pdf->SetXY($x + 5, $y + .48);
-            $date_str = $this->matchcase($check['from_name'], "DATE");
+            $pdf->Line($x + 3.5, $y + .58, $x + 3.5 + 1.2, $y + .58);
+            $pdf->SetXY($x + 3.5, $y + .48);
+            $date_str = $this->matchcase($check['from_name'], "date");
             $pdf->Cell(1, (7 / 72), $date_str);
 
-
-
-            $length_of_line = 5.75;
             // pay to the order of
-            $pdf->Line($x + $cell_left, $y + 1.1, $x + $cell_left + $length_of_line, $y + 1.1);
+            $pdf->Line($x + $cell_left, $y + 1.1, $x + $cell_left + 4.1, $y + 1.1);
             $pdf->SetXY($x + $cell_left, $y + .88);
-            $pay_str = strtoupper("pay to the order of");
-            $pdf->MultiCell(0.7, (7 / 72), $pay_str, 0);
+            $pay_str = $this->matchcase($check['from_name'], "pay to the order of");
+            $pdf->MultiCell(.6, (7 / 72), $pay_str, 0, 'L');
 
+            // amount box
+            $pdf->Rect($x + 4.5, $y + .83, 1.1, .25);
 
-            // dollar sign
-            $pdf->SetFont('Twcen', '', 16);
-            // X coordinate
-            $pdf->Cell(6.3);
-            $pdf->Cell(-.25, -.15, '$');
+            // dollars
+            $pdf->Line($x + $cell_left, $y + 1.5, $x + $cell_left + 5.37, $y + 1.5);
+            $pdf->SetXY($x + $cell_left + 4.37, $y + 1.4);
+            $dollar_str = $this->matchcase($check['from_name'], "dollars");
+            $pdf->Cell(1, (7 / 72), $dollar_str, '', '', 'R');
 
-            //set font back to twcen
-            $pdf->SetFont('Twcen', '', 8);
+            // bank info
+            $pdf->SetXY($x + $cell_left, $y + 1.6);
+            $pdf->Cell(2, (7 / 72), $check['bank_1'], 0, 2);
+            $pdf->Cell(2, (7 / 72), $check['bank_2'], 0, 2);
+            $pdf->Cell(2, (7 / 72), $check['bank_3'], 0, 2);
+            $pdf->Cell(2, (7 / 72), $check['bank_4'], 0, 2);
 
-            // convenience amount rectangle
-            $pdf->Rect($x + 6.5, $y + .85, 1.1, .3);
-
-            // written amount
-            $pdf->SetFont('Twcen', '', 10);
-            $pdf->Line($x + $cell_left, $y + 1.6, $x + $cell_left + $length_of_line + 1, $y + 1.6);
-            $pdf->SetXY($x + $cell_left + 3.75, $y + 1.5);
-            
-            // Dollars text
-            $dollar_str = "DOLLARS";
-            $pdf->Cell(3, 0.4, $dollar_str, '', '', 'R');
-
-            // bank info content
-            $pdf->SetFont('Twcen', '', 8);
-            $pdf->SetXY($x + $cell_left, $y + 1.7);
-            $pdf->Cell(2, (7 / 72), strtoupper($check['bank_1']), 0, 2);
-            $pdf->Cell(2, (7 / 72), strtoupper($check['bank_2']), 0, 2);
-            $pdf->Cell(2, (7 / 72), strtoupper($check['bank_3']), 0, 2);
-            $pdf->Cell(2, (7 / 72), strtoupper($check['bank_4']), 0, 2);
-
-
-            // memo heading
-            $pdf->SetFont('Twcen', '', 8);
-            $pdf->Line($x + $cell_left, $y + 2.325, $x + $cell_left + 2.9, $y + 2.325);
-            $pdf->SetXY($x + $cell_left, $y + 2.225);
-            $memo_str = "MEMO";
+            // memo
+            $pdf->Line($x + $cell_left, $y + 2.225, $x + $cell_left + 2.9, $y + 2.225);
+            $pdf->SetXY($x + $cell_left, $y + 2.125);
+            $memo_str = $this->matchcase($check['from_name'], "memo");
             $pdf->Cell(1, (7 / 72), $memo_str);
 
             // signature line
-            $pdf->Line($x + 4.25, $y + 2.325, $x + 5 + 2.375, $y + 2.325);
+            $pdf->Line($x + 3.25, $y + 2.225, $x + 3.25 + 2.375, $y + 2.225);
 
-            ///////////////// CONTENT ////////////////
+
+            ////////////////////////
+            // fill in values for this check
+
             $pdf->SetFont('Courier', '', 11);
 
-            // date content
+            // date
             if ($check['date'] != "") {
-                $pdf->SetXY($x + 5 + .3, $y + .38);
+                $pdf->SetXY($x + 3.5 + .3, $y + .38);
                 $pdf->Cell(1, .25, $check['date']);
             }
 
-            // pay to content
+            // pay to
             if ($check['pay_to'] != "") {
-                $pdf->SetXY($x + $cell_left + 1, $y + .88);
+                $pdf->SetXY($x + $cell_left + .5, $y + .88);
                 $pdf->Cell(1, .25, $check['pay_to']);
             }
 
-            // amount content
+            // amount
             if ($check['amount'] > 0) {
                 $dollars = intval($check['amount']);
                 $cents = round(($check['amount'] - $dollars) * 100);
+                //$dollars_str = TextualNumber::GetText($dollars);
                 $numtxt = new TextualNumber($dollars);
                 $dollars_str = $numtxt->numToWords($dollars);
 
-                $amt_string = "*****" . ucfirst(strtoupper($dollars_str)) . " DOLLARS";
+                $amt_string = "***" . ucfirst(strtolower($dollars_str)) . " dollars";
                 if ($cents > 0) {
-                    $amt_string .= " AND " . $cents . "/100";
+                    $amt_string .= " and " . $cents . "/100";
                 } else {
-                    $amt_string .= " AND 00/100";
+                    $amt_string .= " and 00/100";
                 }
+                $amt_string .= "***";
 
-                // written amount formatting
                 $pdf->SetFont('Courier', '', 9);
-                $pdf->SetXY($x + $cell_left, $y + 1.4);
+                $pdf->SetXY($x + $cell_left, $y + 1.28);
                 $pdf->Cell(1, .25, $amt_string);
 
-                # box amount content
-                $amt = number_format($check['amount'], 2);
-                $pdf->SetXY($x + 4.5 + 2.1, $y + .83);
-                $pdf->Cell(1, 0.35, $amt);
+                #$amt = '$'.sprintf("%01.2f",$check['amount']);
+                $amt = '$' . number_format($check['amount'], 2);
+
+                $pdf->SetXY($x + 4.5 + .06, $y + .83);
+                $pdf->Cell(1, .25, $amt);
             }
 
-            // memo content
+            // memo
             $pdf->SetFont('Courier', '', 8);
-            $pdf->SetXY($x + $cell_left + 0.5, $y + 2.15);
-            $pdf->Cell(1, .2, $check['memo']);
+            $pdf->SetXY($x + $cell_left + 0.3, $y + 2.02);
+            $pdf->Cell(1, .25, $check['memo']);
             $pdf->SetFont('Courier', '', 11);
+
 
             // routing and account number
             $pdf->SetFont('Micr', '', 10);
-            // t = transit number symbol
-            // o = on-us symbol
-            // d = dash
-            $routingstring = "o" . $check['check_number'] . "o   t" . $check['transit_number'] . "d" . $check['inst_number'] . "t  " . $check['account_number'] . "o";
+            $routingstring = "t" . $check['routing_number'] . "t" . $check['account_number'] . "o" . $check['check_number'];
             if (array_key_exists('codeline', $check))
                 $routingstring = $check['codeline'];
-
-            $pdf->SetXY($x + $cell_left, $y + 2.65);
-            $pdf->Cell(5, 0.16, $routingstring);
+            $pdf->SetXY($x + $cell_left, $y + 2.47);
+            $pdf->Cell(5, (10 / 72), $routingstring);
 
 
             // signature
@@ -257,6 +236,14 @@ class CheckGenerator
                 }
             }
 
+            // pre-authorized disclaimer
+            $pdf->SetFont('Arial', '', 6);
+            if (isset($check['pre_auth'])) {
+                $pdf->SetXY($x + $cell_left + 3.3, $y + 2.155);
+                $pdf->Cell(1, .25, "This check is pre-authorized by your depositor");
+            }
+
+
             if ($pos == (($rows * $columns) - 1) && !($lpos == count($this->checks) - 1)) {
                 $pdf->AddPage();
             }
@@ -268,11 +255,9 @@ class CheckGenerator
     }
 
 
-    // private, returns $str capitalized to match with $name
     function matchcase($name, $str)
-    {
-        // check if first letter is uppercase
-        if (strtoupper(substr($name, 0, 1)) == substr($name, 0, 1)) {
+    {   // private, returns $str capitalized to match with $name
+        if (strtoupper(substr($name, 0, 1)) == substr($name, 0, 1)) { // check if first letter is uppercase
             return ucfirst($str);
         } else {
             return strtolower($str);
