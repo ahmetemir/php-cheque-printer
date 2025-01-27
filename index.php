@@ -23,7 +23,7 @@ $check['bank_4'] = "";
 $check['signature'] = "";
 
 $check['pay_to'] = "YOUR MOM";
-$check['amount'] = '100.01';
+$check['amount'] = '123456.78';
 $check['date'] = "2020-01-01";
 $check['memo'] = "TEST";
 
