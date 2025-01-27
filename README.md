@@ -40,6 +40,9 @@ https://www.payments.ca/sites/default/files/standard006eng.pdf
 
 ![alt text](image-2.png)
 
+MICR 
+![alt text](image-3.png)
+
 ## Installing
 ### Ubuntu
 ```bash
@@ -60,7 +63,11 @@ The minimum size of a cheque is now 6.25" wide and 2.75" high. The maximum size 
 
 The bottom 5/8" (called the MICR Clear Band) must be clear of all printing except for the magnetic ink numbers and symbols. There should be no background printing in the MICR clear band, and if there is it must be so light that it will not interfere with readability when the cheque is scanned.
 
+Canadian Cheque ✅  
 ![alt text](image-1.png)
+
+US Check ❌  
+![alt text](image-4.png)
 
 Depositing
 ----------
