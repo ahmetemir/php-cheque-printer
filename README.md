@@ -15,7 +15,7 @@ With this method, you can print your own cheques for an unlimited number of acco
 
 ### Canada Full Size
 > WIP
-
+- Fits amounts up to $9,999,999.99 in legal field. Technically cheque limits in Canada are 25M, but I would use a draft...
 ![alt text](images/can-full-size.png)
 
 ### Canada Wallet  
