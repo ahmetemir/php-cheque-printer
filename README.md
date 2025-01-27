@@ -1,5 +1,8 @@
 Cheques
 ======
+
+![alt text](image-5.png)
+
 ## Background
 Welcome to Canada's ancient banking system.  
 

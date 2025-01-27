@@ -70,7 +70,6 @@ class CheckGenerator
         $cell_top  = 0.25;
         $cell_bot  = 0.25;
 
-        //
         ////////////////////////////
 
         $img_ratio = 1.4; // loqisaur

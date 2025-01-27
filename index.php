@@ -39,7 +39,7 @@ $check['check_number']++;
 $CHK->AddCheck($check);
 
 
-if(array_key_exists('REMOTE_ADDR', $_SERVER)) {
+if (array_key_exists('REMOTE_ADDR', $_SERVER)) {
   // Called from a browser
   header('Content-Type: application/octet-stream', false);
   header('Content-Type: application/pdf', false);
@@ -52,4 +52,3 @@ if(array_key_exists('REMOTE_ADDR', $_SERVER)) {
   file_put_contents('checks.pdf', $pdf);
   echo "Saved to file: checks.pdf\n";
 }
-
