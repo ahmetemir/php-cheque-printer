@@ -8,6 +8,8 @@ Welcome to Canada's ancient banking system.
 
 Cheques are not as secure as people think - all someone needs to draw money from your account is the magic 3 numbers used for direct deposits - institution number, transit number and account number.
 
+Cheque stock is also not controlled like currency paper stock is, so any Joe Schmo can create cheques.
+
 If you want to send >3-10K from/to an account, you need a cheque unless you want to pay $100 in wire fees on both ends or go to a branch and order a draft for ~$10.
 
 Go in person and have to pay? How about no?
