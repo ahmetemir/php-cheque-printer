@@ -1,7 +1,14 @@
 Cheques
 ======
 
-![alt text](image-6.png)
+### Canada Wide
+![alt text](images/can-wide.png)
+
+### Canada Wallet
+![alt text](images/can-wallet.png)
+
+### US Wallet
+![alt text](images/us.png)
 
 ## Background
 Welcome to Canada's ancient banking system.  
@@ -43,10 +50,10 @@ With this method, you can print your own cheques for an unlimited number of acco
 Spec:  
 https://www.payments.ca/sites/default/files/standard006eng.pdf
 
-![alt text](image-2.png)
+![alt text](images/image-2.png)
 
 MICR 
-![alt text](image-3.png)
+![alt text](images/image-3.png)
 
 ## Installing
 ### Ubuntu
@@ -59,6 +66,15 @@ sudo apt install php-cli
 php -S 127.0.0.1:8000
 ```
 
+### Routes
+- Canada Wide
+    - http://127.0.0.1:8000
+- Canada Wallet
+    - http://127.0.0.1:8000/can-wallet.php
+- US
+    - http://127.0.0.1:8000/us.php
+
+
 Canadian Cheque Paper
 -----------
 
@@ -69,10 +85,10 @@ The minimum size of a cheque is now 6.25" wide and 2.75" high. The maximum size 
 The bottom 5/8" (called the MICR Clear Band) must be clear of all printing except for the magnetic ink numbers and symbols. There should be no background printing in the MICR clear band, and if there is it must be so light that it will not interfere with readability when the cheque is scanned.
 
 Canadian Cheque ✅  
-![alt text](image-1.png)
+![alt text](images/image-1.png)
 
 US Check ❌  
-![alt text](image-4.png)
+![alt text](images/image-4.png)
 
 Depositing
 ----------
