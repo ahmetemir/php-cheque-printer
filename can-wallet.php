@@ -12,7 +12,16 @@ $check['from_address1'] = "234 Bay Street";
 $check['from_address2'] = "Toronto, ON M5K 1B2";
 
 $check['transit_number'] = "12345";
-$check['account_number'] = "123456789";
+// include dashes in your account number
+// BMO - 123456-123
+// BNS - 12345-12
+// RBC - 123-123-1
+// TD - 1234-1234567
+// NBC - 12-123-12
+// CIBC - 12-12345
+// DESJ - 123-123-1
+// CU - 12345678-123
+$check['account_number'] = "123456-789";
 $check['inst_number'] = "001";
 
 $check['bank_1'] = "Bank of Canada";

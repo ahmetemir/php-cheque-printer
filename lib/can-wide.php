@@ -237,7 +237,7 @@ class CheckGenerator
             // t = transit number symbol
             // o = on-us symbol
             // d = dash
-            $routingstring = "o" . $check['check_number'] . "o   t" . $check['transit_number'] . "d" . $check['inst_number'] . "t  " . $check['account_number'] . "o";
+            $routingstring = "o" . $check['check_number'] . "o   t" . $check['transit_number'] . "d" . $check['inst_number'] . "t  " . $this->replaceDashesWithD($check['account_number']) . "o";
             if (array_key_exists('codeline', $check))
                 $routingstring = $check['codeline'];
 
@@ -277,5 +277,10 @@ class CheckGenerator
         } else {
             return strtolower($str);
         }
+    }
+
+    function replaceDashesWithD($accountNumber)
+    {
+        return str_replace('-', 'd', $accountNumber);
     }
 }

@@ -1,15 +1,4 @@
-Cheques
-======
-
-### Canada Wide
-![alt text](images/can-wide.png)
-
-### Canada Wallet
-![alt text](images/can-wallet.png)
-
-### US Wallet
-![alt text](images/us.png)
-
+# Cheques
 ## Background
 Welcome to Canada's ancient banking system.  
 
@@ -22,6 +11,18 @@ If you want to send >3-10K from/to an account, you need a cheque unless you want
 Go in person and have to pay? How about no?
 
 With this method, you can print your own cheques for an unlimited number of accounts and deposit them via your bank's mobile app so you don't need to leave your house.
+## Features
+
+### Canada Wide
+> WIP
+
+![alt text](images/can-wide.png)
+
+### Canada Wallet  
+![alt text](images/can-wallet.png)
+
+### US Wallet ✅  
+![alt text](images/us.png)
 
 ## WARNING
 
@@ -75,9 +76,7 @@ php -S 127.0.0.1:8000
     - http://127.0.0.1:8000/us.php
 
 
-Canadian Cheque Paper
------------
-
+## Canadian Cheque Paper
 Make sure the paper you buy has the Canadian endorsement pre-printed text and not the US ones.
 
 The minimum size of a cheque is now 6.25" wide and 2.75" high. The maximum size of a cheque is now 8.5" wide by 3.75" high.
@@ -90,12 +89,10 @@ Canadian Cheque ✅
 US Check ❌  
 ![alt text](images/image-4.png)
 
-Depositing
-----------
-
+## Depositing
 If you have a laser printer and can buy magnetic (MICR) ink, the cheques will work pretty much everywhere.
 
-If you print this out with a regular inkjet or laser printer, some ATMs that don't accept them, but otherwise work as normal. 
+If you print this out with a regular inkjet or laser printer, some ATMs don't accept them, but otherwise work as normal. 
 
 Most cheques are scanned via optical methods (camera phone on mobile bank deposit, or inside ATMs), so you shouldn't have a problem with non-magnetic ink. Legally, a cheque doesn't have to have magnetic ink, it was just historically the best way for machines to scan the routing and account number.
 
