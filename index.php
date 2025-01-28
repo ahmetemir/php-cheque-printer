@@ -35,7 +35,7 @@ setBankLogo($check);
 $check['my_logo'] = "";
 $check['from_name'] = "Your Name";
 
-$check['from_address1'] = "234 Bay eStreet";
+$check['from_address1'] = "234 Bay Street";
 $check['from_address2'] = "Toronto, ON M5K 1B2";
 
 $check['transit_number'] = "12345";

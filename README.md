@@ -23,6 +23,7 @@ With this method, you can print your own cheques for an unlimited number of acco
 
 ### US Wallet ✅  
 ![alt text](images/us.png)
+Used since at least 2005 according to the original author. https://github.com/aaronpk/checks
 
 ## WARNING
 
