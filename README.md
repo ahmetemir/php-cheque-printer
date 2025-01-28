@@ -80,6 +80,8 @@ php -S 127.0.0.1:8000
 ## Canadian Cheque Paper
 Make sure the paper you buy has the Canadian endorsement pre-printed text and not the US ones.
 
+The cheapest I've found as of writing in 2025 is $86 shipped for 500 sheets, with 3 cheques per sheet is 1500 cheques. I think I wikl retire before I use all of them!
+
 The minimum size of a cheque is now 6.25" wide and 2.75" high. The maximum size of a cheque is now 8.5" wide by 3.75" high.
 
 The bottom 5/8" (called the MICR Clear Band) must be clear of all printing except for the magnetic ink numbers and symbols. There should be no background printing in the MICR clear band, and if there is it must be so light that it will not interfere with readability when the cheque is scanned.
