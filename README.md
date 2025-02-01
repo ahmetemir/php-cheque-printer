@@ -54,6 +54,8 @@ https://www.payments.ca/sites/default/files/standard006eng.pdf
 
 ![alt text](images/image-2.png)
 
+![alt text](images/biz.png)
+
 MICR 
 ![alt text](images/image-3.png)
 
