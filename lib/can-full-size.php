@@ -53,14 +53,15 @@ class CheckGenerator
         $page_width = 8.5;
         $page_height = 11;
 
-        $top_margin = 0.25;
+        $top_margin = 0.12; # measure distance from top to decorative line
         $left_margin = 0.25;
 
         $columns = 1;
         $gutter = 3 / 16;
         $rows = 3;      // only used for making page breaks, no position calculations
 
-        $label_height = $page_height / 3 - $top_margin;
+        // $label_height = $page_height / 3 - $top_margin;
+        $label_height = 3.50; # measure distance from top to first perforation
         $label_width  = 8.5;
 
         // cell margins
