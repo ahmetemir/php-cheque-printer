@@ -244,11 +244,11 @@ class CheckGenerator
                 $pdf->Cell(0, 0, $check['date']);
             }
 
-            // pay to content
+            // pay to the order ofcontent
             if ($check['pay_to'] != "") {
                 // y pos is dynamic
                 $pdf->SetXY($x + $cell_left + 1, $pay_order_name_line - 0.1);
-                $pdf->Cell(0, 0, $check['pay_to']);
+                $pdf->Cell(0, 0, strtoupper($check['pay_to']));
             }
 
             // written amount content
