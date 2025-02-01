@@ -47,6 +47,9 @@ class CheckGenerator
 
     function PrintChecks()
     {
+        $config = json_decode(file_get_contents('config.json'), true);
+        $positionsToPrint = $config['config']['positions'] ?? ["top", "middle", "bottom"];
+        $check_positions = ["top" => 0, "middle" => 1, "bottom" => 2];
 
         ////////////////////////////
         // label-specific variables
@@ -58,7 +61,7 @@ class CheckGenerator
 
         $columns = 1;
         $gutter = 3 / 16;
-        $rows = 3;      // only used for making page breaks, no position calculations
+        $rows = 3; // Three possible check positions: top, middle, bottom
 
         // $label_height = $page_height / 3 - $top_margin;
         $label_height = 3.50; # measure distance from top to first perforation
@@ -89,11 +92,25 @@ class CheckGenerator
 
         foreach ($this->checks as $check) {
             $pos = $lpos % ($rows * $columns);
+            $positionName = array_search($pos, $check_positions);
+
+            error_log("position " .  $pos . $positionName);
+
             // calculate coordinates of top-left corner of current cell
             //    margin        cell offset
             $x = $left_margin + (($pos % $columns) * ($label_width + $gutter));
             //    margin        cell offset
             $top_edge = $top_margin  + (floor($pos / $columns) * $label_height);
+
+            error_log("top_edge" . $top_edge);
+
+            // Check if the current position should be printed
+            if (!in_array($positionName, $positionsToPrint)) {
+                error_log('Skipping check position ' . $positionName);
+                // Change the Y position and then skip to the next check
+                $lpos++;
+                continue;
+            }
 
             // set up check template
             $pdf->SetFont('Twcen', '', 11);
@@ -107,7 +124,6 @@ class CheckGenerator
             // print check number
             $pdf->SetXY($leading_edge - 1.5, $top_edge + 0.25);
             $pdf->Cell(0, 0, $check['check_number'], 0, 'R');
-
 
             // Your logo
             $logo_offset = 0;  // offset to print name if logo is inserted
@@ -136,7 +152,6 @@ class CheckGenerator
             $pdf->SetXY($date_line_x, $date_line_y - 0.1);
             $date_str = $this->matchcase($check['from_name'], "DATE");
             $pdf->Cell(0, 0.1, $date_str);
-
 
             // convenience amount rectangle
             $con_amount_width = 0.3;
@@ -257,7 +272,8 @@ class CheckGenerator
                 $pdf->SetXY($x + $cell_left, $written_amt_line_offset - 0.2);
                 $pdf->Cell(1, .25, $amt_string);
 
-                error_log($amt_string);
+                // error_log($amt_string);
+
                 # numerical amount content
                 $amt = number_format($check['amount'], 2);
                 $pdf->SetXY($con_box_start_x + 0.1, $con_box_start_y - 0.025);
