@@ -85,6 +85,8 @@ class CheckGenerator
         $pdf->AddPage();
 
         $lpos = 0;
+        $print_cut_lines = true;
+
         foreach ($this->checks as $check) {
             $pos = $lpos % ($rows * $columns);
             // calculate coordinates of top-left corner of current cell
@@ -92,7 +94,6 @@ class CheckGenerator
             $x = $left_margin + (($pos % $columns) * ($label_width + $gutter));
             //    margin        cell offset
             $top_edge = $top_margin  + (floor($pos / $columns) * $label_height);
-
 
             // set up check template
             $pdf->SetFont('Twcen', '', 11);
@@ -102,8 +103,6 @@ class CheckGenerator
 
             // right side
             $leading_edge = 8.5;
-
-            $pdf->Line(0, $top_margin, $leading_edge, $top_margin);
 
             // print check number
             $pdf->SetXY($leading_edge - 1.5, $top_edge + 0.25);
@@ -166,9 +165,13 @@ class CheckGenerator
             //set font back to twcen
             $pdf->SetFont('Twcen', '', 8);
 
-            //seperator between cheques
-            $pdf->Line(0, $aligning_edge_content, $leading_edge, $aligning_edge_content);
-            // $pdf->Rect($x + 6.5, $top_edge + .85, $con_amount_length, $con_amount_width);
+
+            if ($print_cut_lines) { 
+                // print the top line
+                $pdf->Line(0, $top_margin, $leading_edge, $top_margin);
+                // separator between cheques
+                $pdf->Line(0, $aligning_edge_content, $leading_edge, $aligning_edge_content);
+            }
 
             // written amount line
             $written_amt_line_offset = $top_edge + 1.7;
