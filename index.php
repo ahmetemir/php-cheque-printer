@@ -55,7 +55,8 @@ $check['bank_2'] = "234 Wellington Street";
 $check['bank_3'] = "Ottawa, ON K1A 0G9";
 $check['bank_4'] = "";
 
-$check['signature'] = "";
+$check['signature'] = "./signatures/thor.png";
+// $check['signature'] = "Albert";
 
 $check['pay_to'] = "YOUR MOM";
 $check['amount'] = '9999999.99';

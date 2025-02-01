@@ -280,14 +280,18 @@ class CheckGenerator
             $pdf->Cell(0, 0, $routingstring);
 
 
+            // adjust based on picture dimensions
+            $sig_offset_y = 0.5;
+            $sig_offset_x = 4.5;
+            $sig_width = 1.75;  // width of signature
+
             // signature
             if (substr($check['signature'], -3) == 'png') {
-                $sig_offset = 1.75;  // width of signature
-                $pdf->Image($check['signature'], $x + $cell_left + 3.4, $top_edge + 1.88, $sig_offset);
+                $pdf->Image($check['signature'], $x + $cell_left + $sig_offset_x, $memo_sig_offset - $sig_offset_y, $sig_width);
             } else {
                 $pdf->SetFont('Arial', 'i', 10);
                 if ($check['signature'] != "") {
-                    $pdf->SetXY($x + $cell_left + 3.4, $top_edge + 2.01);
+                    $pdf->SetXY($x + $cell_left + 4.5, $memo_sig_offset - 0.2);
                     $pdf->Cell(1, .25, $check['signature']);
                 }
             }
