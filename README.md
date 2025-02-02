@@ -73,6 +73,12 @@ php -S 127.0.0.1:8000
 ### Routes
 - Canada Full Size
     - http://127.0.0.1:8000
+        - uses default json files
+    - http://127.0.0.1:8000/?config=ws.json&overrides=albert.json
+        - filenames loaded dynamically from URL params
+        - create: configs/accounts/ws.json
+        - create: configs/overrides/albert.json
+
 - Canada Wallet
     - http://127.0.0.1:8000/can-wallet.php
 - US
