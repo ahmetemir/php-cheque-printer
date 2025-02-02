@@ -35,7 +35,13 @@ class Check
     private function setBankLogo(): void
     {
         $instNumber = $this->checkData['inst_number'] ?? null;
-        $this->checkData['bank_logo'] = $this->logoMap[$instNumber] ?? "";
+
+        if ($instNumber == '010' && stripos($this->checkData['bank_1'], 'simplii') !== false) {
+            error_log("Simplii detected");
+            $this->checkData['bank_logo'] = $this->logoMap['simplii'] ?? "";
+        } else {
+            $this->checkData['bank_logo'] = $this->logoMap[$instNumber] ?? "";
+        }
     }
 }
 
