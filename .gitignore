@@ -1,8 +1,8 @@
 .DS_Store
 *.pdf
-*.json
+configs/*
+!configs/accounts/config.json
+!configs/overrides/overrides.json
+!configs/overrides/blank.json
 signatures/*
 accounts.md
-!banks.json
-!config.json
-!overrides.json
