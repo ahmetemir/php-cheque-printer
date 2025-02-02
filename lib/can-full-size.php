@@ -49,31 +49,33 @@ class CheckGenerator
         $positionsToPrint = $config['config']['positions'] ?? ["top", "middle", "bottom"];
         $check_positions = ["top" => 0, "middle" => 1, "bottom" => 2];
 
-        ////////////////////////////
-        // label-specific variables
+        // cheque-specific variables
         $page_width = 8.5;
-        $page_height = 11;
 
-        $top_margin = 0.12; # measure distance from top to decorative line
+        if ($config['paper']['used']) {
+            $page_height = 7.5;
+            // Create a PDF with inches as the unit
+            $pdf = new FPDF('L', 'in', array($page_width, $page_height));
+        } else {
+            $page_height = 11;
+            $pdf = new FPDF('P', 'in', array($page_width, $page_height));
+        }
+
+        # measure distance from top to decorative line
+        $top_margin = $config['paper']['topMargin'];
         $left_margin = 0.25;
 
         $columns = 1;
         $gutter = 3 / 16;
-        $rows = 3; // Three possible check positions: top, middle, bottom
-
-        // $label_height = $page_height / 3 - $top_margin;
-        $label_height = 3.50; # measure distance from top to first perforation
+        $rows = 3; 
+        
+        # measure distance from top to first perforation
+        $label_height = $config['paper']['firstPerforationDistanceFromTop'];
         $label_width  = 8.5;
 
         // cell margins
         $cell_left = 0.25;
         $cell_top  = 0.25;
-        $cell_bot  = 0.25;
-
-
-
-        // Create a PDF with inches as the unit
-        $pdf = new FPDF('P', 'in', array($page_width, $page_height));
 
         $pdf->AddFont('Twcen', '', 'twcen.php');
         $pdf->AddFont('Micr', '', 'micr.php');
@@ -84,7 +86,7 @@ class CheckGenerator
         $pdf->AddPage();
 
         $lpos = 0;
-        $print_cut_lines = $config['cut_lines'];
+        $print_cut_lines = $config['print_cut_lines'];
 
         foreach ($this->checks as $check) {
             ////////////////////////////

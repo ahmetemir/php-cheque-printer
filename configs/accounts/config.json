@@ -1,11 +1,16 @@
 {
-  "cut_lines": true,
+  "print_cut_lines": true,
+  "paper": {
+    "used": false,
+    "topMargin": 0.12,
+    "firstPerforationDistanceFromTop": 3.50
+  },
   "config": {
     "positions": ["top", "middle", "bottom"]
   },
   "signature_settings": {
     "width": 1.2,
-    "offset_x": 4.5,
+    "offset_x": 5.5,
     "offset_y": 0.35
   },
   "my_logo": "",
