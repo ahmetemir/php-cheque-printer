@@ -1,14 +1,11 @@
 {
-  "logoMap": {
-    "001": "logos/bmo.png",
-    "002": "logos/bns.png",
-    "003": "logos/rbc.png",
-    "004": "logos/td.png",
-    "006": "logos/nbc.png",
-    "010": "logos/cibc.png"
-  },
   "config": {
     "positions": ["top", "middle", "bottom"]
+  },
+  "signature_settings": {
+    "width": 1,
+    "offset_x": 4.5,
+    "offset_y": 0.4
   },
   "inst_number": "002",
   "my_logo": "",
