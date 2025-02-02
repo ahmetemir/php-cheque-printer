@@ -11,10 +11,11 @@ class Check
     public function __construct(array $data, array $defaultData = [])
     {
         $defaultConfig = json_decode(file_get_contents('config.json'), true);
-        $this->logoMap = $defaultConfig['logoMap'] ?? [];
-        $this->logoSizeMap = $defaultConfig['logoSize'] ?? [];
+        $logoConfig = json_decode(file_get_contents('logos.json'), true);
 
-        unset($defaultConfig['logoMap']);
+        $this->logoMap = $logoConfig['logoMap'] ?? [];
+        $this->logoSizeMap = $logoConfig['logoSize'] ?? [];
+
         $this->checkData = array_merge($defaultConfig, $defaultData, $data);
         $this->setBankLogo();
     }
