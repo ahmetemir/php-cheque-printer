@@ -34,14 +34,14 @@ class Check
     private $logoMap;
     private $logoSizeMap;
     private $micrMap;
-    
+
     public function __construct(array $data, array $defaultData = [])
     {
         $logoConfig = json_decode(file_get_contents('banks.json'), true);
 
         $this->logoMap = $logoConfig['logoMap'] ?? [];
         $this->logoSizeMap = $logoConfig['logoSize'] ?? [];
-        $this->micrMap = $logoConfig['micr-spacing'] ?? [];
+        $this->micrMap = $logoConfig['micr_spacing'] ?? [];
 
         $this->checkData = array_merge($defaultData, $data);
         $this->setBankInfo();
@@ -68,7 +68,7 @@ class Check
 
         error_log('Setting bank info for instNumber: ' . var_export($instNumber, true));
 
-        $this->checkData['micr-spacing'] = $this->micrMap[$this->checkData['inst_number']] ?? 3;
+        $this->checkData['micr_spacing'] = $this->micrMap[$this->checkData['inst_number']] ?? 3;
 
         if ($instNumber === null) {
             error_log("Error: inst_number is not set in checkData!");

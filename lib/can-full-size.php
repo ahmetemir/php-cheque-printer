@@ -295,9 +295,15 @@ class CheckGenerator
             // o = on-us symbol
             // d = dash
             $pdf->SetFont('Micr', '', 10);
-            $routingstring = "o" . $check['check_number'] . "o  t" . $check['transit_number'] . "d" .
-                $check['inst_number'] . "t" . str_repeat(' ', $check['micr-spacing']) .
-                str_replace('-', 'd', $check['account_number']) . "o";
+
+            // Construct routing string for MICR line
+            $checkNumber = "o" . $check['check_number'] . "o";
+            $transitNumber = "t" . $check['transit_number'] . "d";
+            $institutionNumber = $check['inst_number'] . "t";
+            $micrSpacing = str_repeat(' ', $check['micr_spacing']);
+            $accountNumber = str_replace('-', 'd', $check['account_number']) . "o";
+
+            $routingstring = $checkNumber . "  " . $transitNumber . $institutionNumber . $micrSpacing . $accountNumber;
 
             if (array_key_exists('codeline', $check))
                 $routingstring = $check['codeline'];
