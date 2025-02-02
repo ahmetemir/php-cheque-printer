@@ -36,12 +36,11 @@ By printing your own cheques, you can manage payments for multiple accounts and 
 
 ## Features
 
-### Canada Full Size
-> WIP
+### Canada Full Size ✅ 
 - Fits amounts up to $9,999,999.99 in legal field. Technically cheque limits in Canada are 25M, but I would use a draft...
 ![alt text](images/can-full-size.png)
 
-### Canada Wallet  
+### Canada Wallet (untested)
 ![alt text](images/can-wallet.png)
 
 ### US Wallet ✅  
