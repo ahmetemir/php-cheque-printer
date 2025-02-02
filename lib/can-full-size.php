@@ -50,7 +50,7 @@ class CheckGenerator
         $config = json_decode(file_get_contents('config.json'), true);
         $positionsToPrint = $config['config']['positions'] ?? ["top", "middle", "bottom"];
         $check_positions = ["top" => 0, "middle" => 1, "bottom" => 2];
-
+        
         ////////////////////////////
         // label-specific variables
         $page_width = 8.5;
@@ -305,9 +305,10 @@ class CheckGenerator
 
 
             // adjust based on picture dimensions
-            $sig_offset_y = 0.5;
-            $sig_offset_x = 4.5;
-            $sig_width = 1.75;  // width of signature
+            // pos = up, right
+            $sig_offset_y = $config['signature_settings']['offset_y']; 
+            $sig_offset_x = $config['signature_settings']['offset_x'];
+            $sig_width = $config['signature_settings']['width'];
 
             // signature
             if (substr($check['signature'], -3) == 'png') {

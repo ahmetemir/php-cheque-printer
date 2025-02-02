@@ -4,3 +4,4 @@
 signatures/*
 accounts.md
 !logos.json
+!config.json
