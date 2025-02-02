@@ -162,7 +162,7 @@ class CheckGenerator
             // this is the real aligning edge after accounting for margins
             $aligning_edge_content = $aligning_edge - 0.5;
             $con_box_start_x = $leading_edge - $con_amount_length - 0.65;
-            $con_box_start_y = $aligning_edge_content - 2.75 + 0.25;
+            $con_box_start_y = $aligning_edge_content - 2.75 + 0.35;
             $pdf->Rect($con_box_start_x, $con_box_start_y, $con_amount_length, $con_amount_width);
 
             // pay to the order of

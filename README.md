@@ -69,6 +69,8 @@ sudo apt install php-cli
 php -S 127.0.0.1:8000
 ```
 
+Use https://signaturely.com/online-signature/draw/ to generate a png of your signature.
+
 ### Routes
 - Canada Full Size
     - http://127.0.0.1:8000
