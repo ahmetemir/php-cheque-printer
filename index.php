@@ -4,8 +4,24 @@ include("lib/can-full-size.php");
 
 $CHK = new CheckGenerator;
 
-$defaultCheckData = json_decode(file_get_contents('config.json'), true);
-$checksData = json_decode(file_get_contents('overrides.json'), true);
+// http://127.0.0.1:8000/?default=albert.json&overrides=overrides-albert.json
+
+$defaultFileName = isset($_GET['default']) ? $_GET['default'] : 'config.json';
+$overridesFileName = isset($_GET['overrides']) ? $_GET['overrides'] : 'overrides.json';
+
+// Ensure files exist before reading
+if (!file_exists($defaultFileName)) {
+    die("Error: Default file '$defaultFileName' not found.");
+}
+if (!file_exists($overridesFileName)) {
+    die("Error: Overrides file '$overridesFileName' not found.");
+}
+
+$defaultCheckData = json_decode(file_get_contents($defaultFileName), true);
+$checksData = json_decode(file_get_contents($overridesFileName), true);
+
+// $defaultCheckData = json_decode(file_get_contents('config.json'), true);
+// $checksData = json_decode(file_get_contents('overrides.json'), true);
 
 foreach ($checksData as $customData) {
     $check = new Check($customData, $defaultCheckData);

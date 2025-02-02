@@ -21,7 +21,6 @@ class CheckGenerator
             'bank_1',
             'bank_2',
             'bank_3',
-            'bank_4',
             'memo'
         );
 
@@ -223,7 +222,6 @@ class CheckGenerator
             $pdf->Cell(2, 0.1, strtoupper($check['bank_1']), 0, 2);
             $pdf->Cell(2, 0.1, strtoupper($check['bank_2']), 0, 2);
             $pdf->Cell(2, 0.1, strtoupper($check['bank_3']), 0, 2);
-            $pdf->Cell(2, 0.1, strtoupper($check['bank_4']), 0, 2);
 
             // memo heading
             $memo_sig_offset = $top_edge + 2.5;
