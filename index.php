@@ -4,8 +4,13 @@ include("lib/can-full-size.php");
 
 $CHK = new CheckGenerator;
 
-$defaultFileName = isset($_GET['config']) ? $_GET['config'] : 'config.json';
-$overridesFileName = isset($_GET['overrides']) ? $_GET['overrides'] : 'overrides.json';
+$defaultFileName = isset($_GET['config']) 
+    ? 'configs/accounts/' . $_GET['config'] 
+    : 'configs/accounts/config.json';
+
+$overridesFileName = isset($_GET['overrides']) 
+    ? 'configs/overrides/' . $_GET['overrides'] 
+    : 'configs/overrides/sample.json';
 
 // Ensure files exist before reading
 if (!file_exists($defaultFileName)) {
