@@ -84,7 +84,7 @@ class CheckGenerator
         $pdf->AddPage();
 
         $lpos = 0;
-        $print_cut_lines = true;
+        $print_cut_lines = $config['cut_lines'];
 
         foreach ($this->checks as $check) {
             ////////////////////////////

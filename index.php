@@ -6,7 +6,7 @@ $CHK = new CheckGenerator;
 
 // http://127.0.0.1:8000/?default=albert.json&overrides=overrides-albert.json
 
-$defaultFileName = isset($_GET['default']) ? $_GET['default'] : 'config.json';
+$defaultFileName = isset($_GET['config']) ? $_GET['config'] : 'config.json';
 $overridesFileName = isset($_GET['overrides']) ? $_GET['overrides'] : 'overrides.json';
 
 // Ensure files exist before reading

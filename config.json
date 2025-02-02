@@ -1,4 +1,5 @@
 {
+  "cut_lines": true,
   "config": {
     "positions": ["top", "middle", "bottom"]
   },
