@@ -23,9 +23,6 @@ if (!file_exists($overridesFileName)) {
 $defaultCheckData = json_decode(file_get_contents($defaultFileName), true);
 $checksData = json_decode(file_get_contents($overridesFileName), true);
 
-// $defaultCheckData = json_decode(file_get_contents('config.json'), true);
-// $checksData = json_decode(file_get_contents('overrides.json'), true);
-
 foreach ($checksData as $customData) {
     $check = new Check($customData, $defaultCheckData);
     $CHK->AddCheck($check->getAll());
