@@ -285,7 +285,7 @@ class CheckGenerator
             // memo content
             $pdf->SetFont('Courier', '', 8);
             $pdf->SetXY($x + $cell_left + 0.5, $memo_sig_offset - 0.16);
-            $pdf->Cell(1, .2, $check['memo']);
+            $pdf->Cell(1, .2, strtoupper($check['memo']));
             $pdf->SetFont('Courier', '', 11);
 
             // routing and account number
