@@ -1,4 +1,4 @@
-# Cheques
+# php-cheque-printer
 ## WARNING
 
 > ONLY PRODUCE CHEQUES FOR YOUR OWN ACCOUNTS!
