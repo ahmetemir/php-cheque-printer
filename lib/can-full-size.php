@@ -72,9 +72,7 @@ class CheckGenerator
         $cell_top  = 0.25;
         $cell_bot  = 0.25;
 
-        ////////////////////////////
-        $my_logo_width = 0.3;
-        $bank_logo_width = 0.3;
+
 
         // Create a PDF with inches as the unit
         $pdf = new FPDF('P', 'in', array($page_width, $page_height));
@@ -91,6 +89,10 @@ class CheckGenerator
         $print_cut_lines = true;
 
         foreach ($this->checks as $check) {
+            ////////////////////////////
+            $my_logo_width = 0.3;
+            $bank_logo_width = 0.3;
+
             $pos = $lpos % ($rows * $columns);
             $positionName = array_search($pos, $check_positions);
 

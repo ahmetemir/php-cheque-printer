@@ -37,26 +37,30 @@ class Check
     private function setBankLogo(): void
     {
         $instNumber = $this->checkData['inst_number'] ?? null;
-        $custom_logo = isset($logoSizeMap[$instNumber]);
+        if ($instNumber === null) {
+            error_log("Error: inst_number is not set in checkData!");
+            return;
+        }
 
-        if ($instNumber == '010' && stripos($this->checkData['bank_1'], 'simplii') !== false) {
+        $custom_logo = isset($this->logoSizeMap[$instNumber]) ? $this->logoSizeMap[$instNumber] : null;
 
+        error_log("Setting logo: " . var_export($instNumber, true) .
+            " custom_logo: " . var_export($custom_logo, true));
+
+        if ($instNumber === '010' && stripos($this->checkData['bank_1'], 'simplii') !== false) {
             error_log("Simplii detected");
             $this->checkData['bank_logo'] = $this->logoMap['simplii'] ?? "";
-            $this->checkData['bank_logo_size'] = $this->logoSizeMap['simplii'];
-
-        } else if ($custom_logo) {
-
+            $this->checkData['bank_logo_size'] = $this->logoSizeMap['simplii'] ?? null;
+        } elseif ($custom_logo !== null) {
             $this->checkData['bank_logo'] = $this->logoMap[$instNumber] ?? "";
-            $this->checkData['bank_logo_size'] = $this->logoSizeMap[$instNumber];
-            error_log("Bank bank_logo_size: " . $this->checkData['bank_logo_size']);
-
+            $this->checkData['bank_logo_size'] = $custom_logo;
+            error_log("Bank logo size: " . var_export($this->checkData['bank_logo_size'], true));
         } else {
-
             $this->checkData['bank_logo'] = $this->logoMap[$instNumber] ?? "";
-            
+            error_log("Warning: No custom logo found for instNumber: " . var_export($instNumber, true));
         }
     }
+
 }
 
 $CHK = new CheckGenerator;
