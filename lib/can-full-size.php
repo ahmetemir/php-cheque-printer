@@ -49,7 +49,7 @@ class CheckGenerator
     {
         $positionsToPrint = $config['config']['positions'] ?? ["top", "middle", "bottom"];
         $check_positions = ["top" => 0, "middle" => 1, "bottom" => 2];
-        
+
         ////////////////////////////
         // label-specific variables
         $page_width = 8.5;
@@ -132,7 +132,7 @@ class CheckGenerator
                 // logo should be: 0.71" x 0.29"
                 $logo_offset = $my_logo_width + 0.005;  // width of logo
                 $pdf->Image($check['my_logo'], $x + $cell_left, $top_edge + $cell_top + .12, $my_logo_width);
-            } 
+            }
 
             $pdf->SetFont('Twcen', '', 8);
 
@@ -182,7 +182,7 @@ class CheckGenerator
             $pdf->SetFont('Twcen', '', 8);
 
 
-            if ($print_cut_lines) { 
+            if ($print_cut_lines) {
                 // print the top line
                 $pdf->Line(0, $top_margin, $leading_edge, $top_margin);
                 // separator between cheques
@@ -295,17 +295,19 @@ class CheckGenerator
             // o = on-us symbol
             // d = dash
             $pdf->SetFont('Micr', '', 10);
-            $routingstring = "o" . $check['check_number'] . "o  t" . $check['transit_number'] . "d" . $check['inst_number'] . "t" . $this->getSpacesByInstitution($check['inst_number']) . $this->replaceDashesWithD($check['account_number']) . "o";
+            $routingstring = "o" . $check['check_number'] . "o  t" . $check['transit_number'] . "d" . 
+                             $check['inst_number'] . "t" . str_repeat(' ', $check['micr-spacing']) . 
+                             $this->replaceDashesWithD($check['account_number']) . "o";
+            
             if (array_key_exists('codeline', $check))
                 $routingstring = $check['codeline'];
 
             $pdf->SetXY(1, $aligning_edge - 5 / 8 - 0.25);
             $pdf->Cell(0, 0, $routingstring);
 
-
             // adjust based on picture dimensions
             // pos = up, right
-            $sig_offset_y = $config['signature_settings']['offset_y']; 
+            $sig_offset_y = $config['signature_settings']['offset_y'];
             $sig_offset_x = $config['signature_settings']['offset_x'];
             $sig_width = $config['signature_settings']['width'];
 
@@ -348,19 +350,8 @@ class CheckGenerator
     }
 
     // defines separation between inst number and account number
-    function getSpacesByInstitution($institutionNumber)
+    function getSpacesByInstitution($institutionNumber, $spacesMap)
     {
-        $spacesMap = [
-            '001' => 2, // BMO
-            '002' => 1, // BNS
-            '003' => 3, // RBC
-            '004' => 1, // TD
-            '006' => 3, // NBC
-            '010' => 1, // CIBC
-            '815' => 3, // DESJ
-            '828' => 0, // CU
-        ];
-
         // Default spaces if the institution number is not found
         $defaultSpaces = 3;
 

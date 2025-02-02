@@ -3,6 +3,6 @@
 *.json
 signatures/*
 accounts.md
-!logos.json
+!banks.json
 !config.json
 !overrides.json

@@ -36,13 +36,14 @@ class Check
 
     public function __construct(array $data, array $defaultData = [])
     {
-        $logoConfig = json_decode(file_get_contents('logos.json'), true);
+        $logoConfig = json_decode(file_get_contents('banks.json'), true);
 
         $this->logoMap = $logoConfig['logoMap'] ?? [];
         $this->logoSizeMap = $logoConfig['logoSize'] ?? [];
+        $this->micrMap = $logoConfig['micr-spacing'] ?? [];
 
         $this->checkData = array_merge($defaultData, $data);
-        $this->setBankLogo();
+        $this->setBankInfo();
     }
 
     public function set(string $key, $value): void
@@ -60,9 +61,14 @@ class Check
         return $this->checkData;
     }
 
-    private function setBankLogo(): void
+    private function setBankInfo(): void
     {
         $instNumber = $this->checkData['inst_number'] ?? null;
+
+        error_log('Setting bank info for instNumber: ' . var_export($instNumber, true));
+        
+        $this->checkData['micr-spacing'] = $this->micrMap[$this->checkData['inst_number']] ?? 3;
+
         if ($instNumber === null) {
             error_log("Error: inst_number is not set in checkData!");
             return;
