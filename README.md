@@ -1,30 +1,4 @@
 # Cheques
-## Background
-Welcome to Canada's ancient banking system.  
-
-Cheques are not as secure as people think - all someone needs to draw money from your account is the magic 3 numbers used for direct deposits - institution number, transit number and account number.
-
-Cheque stock is also not controlled like currency paper stock is, so any Joe Schmo can create cheques.
-
-If you want to send >3-10K from/to an account, you need a cheque unless you want to pay $100 in wire fees on both ends or go to a branch and order a draft for ~$10.
-
-Go in person and have to pay? How about no?
-
-With this method, you can print your own cheques for an unlimited number of accounts and deposit them via your bank's mobile app so you don't need to leave your house.
-## Features
-
-### Canada Full Size
-> WIP
-- Fits amounts up to $9,999,999.99 in legal field. Technically cheque limits in Canada are 25M, but I would use a draft...
-![alt text](images/can-full-size.png)
-
-### Canada Wallet  
-![alt text](images/can-wallet.png)
-
-### US Wallet ✅  
-![alt text](images/us.png)
-Used since at least 2005 according to the original author. https://github.com/aaronpk/checks
-
 ## WARNING
 
 > ONLY PRODUCE CHEQUES FOR YOUR OWN ACCOUNTS!
@@ -46,6 +20,33 @@ Used since at least 2005 according to the original author. https://github.com/aa
 - A criminal record that can affect future employment and travel.
 
 ### Don't do it!
+
+## Background
+Welcome to Canada's ancient banking system.
+
+Cheques aren’t as secure as many people assume - anyone with your institution number, transit number, and account number can withdraw funds from your account, the same details used for direct deposits.
+
+Unlike currency paper stock, cheque stock isn’t regulated, meaning anyone can print their own cheques.
+
+If you need to transfer more than $3,000 - $10,000, a cheque is often required unless you're willing to pay around $100 in wire fees on both ends or visit a branch to get a bank draft for about $10.
+
+Going in person and paying extra? No thanks.
+
+By printing your own cheques, you can manage payments for multiple accounts and deposit them using your bank’s mobile app - all without leaving your house.
+
+## Features
+
+### Canada Full Size
+> WIP
+- Fits amounts up to $9,999,999.99 in legal field. Technically cheque limits in Canada are 25M, but I would use a draft...
+![alt text](images/can-full-size.png)
+
+### Canada Wallet  
+![alt text](images/can-wallet.png)
+
+### US Wallet ✅  
+![alt text](images/us.png)
+Used since at least 2005 according to the original author. https://github.com/aaronpk/checks
 
 ## Design
 
@@ -85,14 +86,16 @@ php -S 127.0.0.1:8000
     - http://127.0.0.1:8000/us.php
 
 
-## Canadian Cheque Paper
-Make sure the paper you buy has the Canadian endorsement pre-printed text and not the US ones.
+## Canadian Cheque Stock
+Ensure that the cheque paper you purchase has the Canadian endorsement pre-printed text, not the U.S. version.
 
-The cheapest I've found as of writing in 2025 is $86 shipped for 500 sheets, with 3 cheques per sheet is 1500 cheques. I think I will retire before I use all of them!
+As of 2025, the most affordable option I've found is $86 CAD (including shipping) for 500 sheets. With three cheques per sheet, this provides 1,500 cheques—enough to write one cheque per month for 125 years. Even if you use one cheque per sheet, that still covers 41 years of cheques.
 
-The minimum size of a cheque is now 6.25" wide and 2.75" high. The maximum size of a cheque is now 8.5" wide by 3.75" high.
+Cheque dimensions must be within the following range:
+- Minimum size: 6.25" wide × 2.75" high
+- Maximum size: 8.5" wide × 3.75" high
 
-The bottom 5/8" (called the MICR Clear Band) must be clear of all printing except for the magnetic ink numbers and symbols. There should be no background printing in the MICR clear band, and if there is it must be so light that it will not interfere with readability when the cheque is scanned.
+The bottom 5/8" of the cheque (MICR Clear Band) must remain free of any printing, except for the magnetic ink numbers and symbols. Any background printing in this area must be extremely light to avoid interference with scanning.
 
 Canadian Cheque ✅  
 ![alt text](images/image-1.png)
@@ -101,22 +104,22 @@ US Check ❌
 ![alt text](images/image-4.png)
 
 ## Depositing
-If you have a laser printer and can buy magnetic (MICR) ink, the cheques will work pretty much everywhere.
+If you have a laser printer and can purchase magnetic (MICR) ink, your cheques will be widely accepted.
 
-If you print this out with a regular inkjet or laser printer, some ATMs don't accept them, but otherwise work as normal. 
+Printing with a standard inkjet or laser printer may cause some ATMs to reject them, but they generally function as expected.
 
-Most cheques are scanned via optical methods (camera phone on mobile bank deposit, or inside ATMs), so you shouldn't have a problem with non-magnetic ink. Legally, a cheque doesn't have to have magnetic ink, it was just historically the best way for machines to scan the routing and account number.
+Most cheques are processed using optical scanning methods, such as mobile banking deposits via smartphone cameras or internal ATM scanners. Non-magnetic ink typically does not pose an issue. While magnetic ink was historically used to facilitate machine reading of routing and account numbers, it is not a legal requirement for cheques.
 
-CPA 006 in 2006 standardized cheques because banks were no longer sending them to each other, but cheque images are transmitted  electronically which gave the rise to mobile deposit features.
-
-https://www.asap-cheques.com/questions/cpa-006/cpa-006-overview-introduction
-
+The CPA 006 standard, introduced in 2006, standardized cheque formats as banks transitioned from physically exchanging cheques to transmitting their images electronically, paving the way for mobile deposits.
 
 ## Contributing
+This command tells Git to assume that the specified file has not changed, even if it has. This can be useful for temporarily ignoring changes to a file without modifying .gitignore.
+
 ```bash
 git update-index --assume-unchanged <file>
 ```
 
+This command reverses the effect of --assume-unchanged, telling Git to resume tracking changes to the specified file.
 ```bash
 git update-index --no-assume-unchanged <file>
 ```
