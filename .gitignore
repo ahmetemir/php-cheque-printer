@@ -3,3 +3,4 @@
 *.json
 signatures/*
 accounts.md
+!logos.json
