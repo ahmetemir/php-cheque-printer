@@ -6,11 +6,13 @@ class Check
 {
     private $checkData;
     private $logoMap;
+    private $logoSizeMap;
 
     public function __construct(array $data, array $defaultData = [])
     {
         $defaultConfig = json_decode(file_get_contents('config.json'), true);
         $this->logoMap = $defaultConfig['logoMap'] ?? [];
+        $this->logoSizeMap = $defaultConfig['logoSize'] ?? [];
 
         unset($defaultConfig['logoMap']);
         $this->checkData = array_merge($defaultConfig, $defaultData, $data);
@@ -35,12 +37,24 @@ class Check
     private function setBankLogo(): void
     {
         $instNumber = $this->checkData['inst_number'] ?? null;
+        $custom_logo = isset($logoSizeMap[$instNumber]);
 
         if ($instNumber == '010' && stripos($this->checkData['bank_1'], 'simplii') !== false) {
+
             error_log("Simplii detected");
             $this->checkData['bank_logo'] = $this->logoMap['simplii'] ?? "";
-        } else {
+            $this->checkData['bank_logo_size'] = $this->logoSizeMap['simplii'];
+
+        } else if ($custom_logo) {
+
             $this->checkData['bank_logo'] = $this->logoMap[$instNumber] ?? "";
+            $this->checkData['bank_logo_size'] = $this->logoSizeMap[$instNumber];
+            error_log("Bank bank_logo_size: " . $this->checkData['bank_logo_size']);
+
+        } else {
+
+            $this->checkData['bank_logo'] = $this->logoMap[$instNumber] ?? "";
+            
         }
     }
 }

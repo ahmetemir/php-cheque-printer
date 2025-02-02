@@ -205,8 +205,11 @@ class CheckGenerator
 
             // bank info content
             $pdf->SetFont('Twcen', '', 8);
-            
+
             // Bank Logo
+            if (array_key_exists('bank_logo_size', $check)) {
+                $bank_logo_width = $check['bank_logo_size'];
+            }
             $bank_logo_offset = 0;  // offset to print name if logo is inserted
             if (array_key_exists('bank_logo', $check) && $check['bank_logo'] != "") {
                 // logo should be: 0.71" x 0.29"
