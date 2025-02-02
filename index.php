@@ -53,7 +53,7 @@ class Check
 
     public function __construct(array $data, array $defaultData = [])
     {
-        $logoConfig = json_decode(file_get_contents('banks.json'), true);
+        $logoConfig = json_decode(file_get_contents('configs/banks.json'), true);
 
         $this->logoMap = $logoConfig['logoMap'] ?? [];
         $this->logoSizeMap = $logoConfig['logoSize'] ?? [];
