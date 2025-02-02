@@ -44,13 +44,12 @@ By printing your own cheques, you can manage payments for multiple accounts and 
 ![alt text](images/can-wallet.png)
 
 ### US Wallet ✅  
-![alt text](images/us.png)
 Used since at least 2005 according to the original author. https://github.com/aaronpk/checks
+![alt text](images/us.png)
 
 ## Design
 
-Spec:  
-https://www.payments.ca/sites/default/files/standard006eng.pdf
+Spec: https://www.payments.ca/sites/default/files/standard006eng.pdf
 
 ![alt text](images/image-2.png)
 
