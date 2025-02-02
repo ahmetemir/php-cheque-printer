@@ -234,7 +234,7 @@ class CheckGenerator
             $pdf->Cell(0, -0.1, $memo_str);
 
             // signature line
-            $pdf->Line($x + 4.25, $memo_sig_offset, $x + 5 + 2.375, $memo_sig_offset);
+            $pdf->Line($x + 5.15, $memo_sig_offset, $x + 5 + 2.75, $memo_sig_offset);
 
             ///////////////// CONTENT ////////////////
             $pdf->SetFont('Courier', '', 11);
