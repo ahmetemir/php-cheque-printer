@@ -2,7 +2,6 @@
 *.pdf
 configs/*
 !configs/accounts/config.json
-!configs/overrides/overrides.json
-!configs/overrides/blank.json
+!configs/overrides/sample.json
 signatures/*
 accounts.md

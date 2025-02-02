@@ -1,0 +1,16 @@
+[
+  {
+    "transit_number": "9999999",
+    "pay_to": "John Doe",
+    "amount": "5000.00",
+    "memo": "Salary Payment"
+  },
+  {
+    "check_number": 1002,
+    "pay_to": "Jane Smith",
+    "amount": "7500.00"
+  },
+  {
+    "check_number": 1003
+  }
+]
