@@ -45,9 +45,8 @@ class CheckGenerator
     }
 
 
-    function PrintChecks()
+    function PrintChecks($config)
     {
-        $config = json_decode(file_get_contents('config.json'), true);
         $positionsToPrint = $config['config']['positions'] ?? ["top", "middle", "bottom"];
         $check_positions = ["top" => 0, "middle" => 1, "bottom" => 2];
         

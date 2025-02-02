@@ -2,6 +2,32 @@
 date_default_timezone_set('UTC');
 include("lib/can-full-size.php");
 
+$CHK = new CheckGenerator;
+
+$defaultCheckData = json_decode(file_get_contents('config.json'), true);
+$checksData = json_decode(file_get_contents('overrides.json'), true);
+
+foreach ($checksData as $customData) {
+    $check = new Check($customData, $defaultCheckData);
+    $CHK->AddCheck($check->getAll());
+}
+
+if (isset($_SERVER['REMOTE_ADDR'])) {
+    header('Content-Type: application/octet-stream', false);
+    header('Content-Type: application/pdf', false);
+    $CHK->PrintChecks($defaultCheckData);
+} else {
+    ob_start();
+    $CHK->PrintChecks($defaultCheckData);
+    $pdf = ob_get_clean();
+    file_put_contents('checks.pdf', $pdf);
+    echo "Saved to file: checks.pdf\n";
+}
+
+/**
+ * Class Check
+ */
+
 class Check
 {
     private $checkData;
@@ -10,13 +36,12 @@ class Check
 
     public function __construct(array $data, array $defaultData = [])
     {
-        $defaultConfig = json_decode(file_get_contents('config.json'), true);
         $logoConfig = json_decode(file_get_contents('logos.json'), true);
 
         $this->logoMap = $logoConfig['logoMap'] ?? [];
         $this->logoSizeMap = $logoConfig['logoSize'] ?? [];
 
-        $this->checkData = array_merge($defaultConfig, $defaultData, $data);
+        $this->checkData = array_merge($defaultData, $data);
         $this->setBankLogo();
     }
 
@@ -61,27 +86,4 @@ class Check
             error_log("Warning: No custom logo found for instNumber: " . var_export($instNumber, true));
         }
     }
-
-}
-
-$CHK = new CheckGenerator;
-
-$defaultCheckData = json_decode(file_get_contents('config.json'), true);
-$checksData = json_decode(file_get_contents('overrides.json'), true);
-
-foreach ($checksData as $customData) {
-    $check = new Check($customData, $defaultCheckData);
-    $CHK->AddCheck($check->getAll());
-}
-
-if (isset($_SERVER['REMOTE_ADDR'])) {
-    header('Content-Type: application/octet-stream', false);
-    header('Content-Type: application/pdf', false);
-    $CHK->PrintChecks();
-} else {
-    ob_start();
-    $CHK->PrintChecks();
-    $pdf = ob_get_clean();
-    file_put_contents('checks.pdf', $pdf);
-    echo "Saved to file: checks.pdf\n";
 }

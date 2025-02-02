@@ -104,3 +104,13 @@ Most cheques are scanned via optical methods (camera phone on mobile bank deposi
 CPA 006 in 2006 standardized cheques because banks were no longer sending them to each other, but cheque images are transmitted  electronically which gave the rise to mobile deposit features.
 
 https://www.asap-cheques.com/questions/cpa-006/cpa-006-overview-introduction
+
+
+## Contributing
+```bash
+git update-index --assume-unchanged <file>
+```
+
+```bash
+git update-index --no-assume-unchanged <file>
+```
