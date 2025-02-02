@@ -295,10 +295,10 @@ class CheckGenerator
             // o = on-us symbol
             // d = dash
             $pdf->SetFont('Micr', '', 10);
-            $routingstring = "o" . $check['check_number'] . "o  t" . $check['transit_number'] . "d" . 
-                             $check['inst_number'] . "t" . str_repeat(' ', $check['micr-spacing']) . 
-                             $this->replaceDashesWithD($check['account_number']) . "o";
-            
+            $routingstring = "o" . $check['check_number'] . "o  t" . $check['transit_number'] . "d" .
+                $check['inst_number'] . "t" . str_repeat(' ', $check['micr-spacing']) .
+                str_replace('-', 'd', $check['account_number']) . "o";
+
             if (array_key_exists('codeline', $check))
                 $routingstring = $check['codeline'];
 
@@ -342,24 +342,6 @@ class CheckGenerator
         } else {
             return strtolower($str);
         }
-    }
-
-    function replaceDashesWithD($accountNumber)
-    {
-        return str_replace('-', 'd', $accountNumber);
-    }
-
-    // defines separation between inst number and account number
-    function getSpacesByInstitution($institutionNumber, $spacesMap)
-    {
-        // Default spaces if the institution number is not found
-        $defaultSpaces = 3;
-
-        // Get the number of spaces for the given institution number or fallback to default
-        $numSpaces = $spacesMap[$institutionNumber] ?? $defaultSpaces;
-
-        // Return the spaces as a string
-        return str_repeat(' ', $numSpaces);
     }
 
     // pads the amount text with asterisks to reach 80 characters

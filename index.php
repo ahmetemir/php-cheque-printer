@@ -33,7 +33,8 @@ class Check
     private $checkData;
     private $logoMap;
     private $logoSizeMap;
-
+    private $micrMap;
+    
     public function __construct(array $data, array $defaultData = [])
     {
         $logoConfig = json_decode(file_get_contents('banks.json'), true);
@@ -66,7 +67,7 @@ class Check
         $instNumber = $this->checkData['inst_number'] ?? null;
 
         error_log('Setting bank info for instNumber: ' . var_export($instNumber, true));
-        
+
         $this->checkData['micr-spacing'] = $this->micrMap[$this->checkData['inst_number']] ?? 3;
 
         if ($instNumber === null) {
