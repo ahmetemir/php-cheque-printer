@@ -1,12 +1,12 @@
 {
   "print_cut_lines": true,
   "paper": {
-    "used": false,
+    "used": "single",
     "topMargin": 0.12,
     "firstPerforationDistanceFromTop": 3.50
   },
   "config": {
-    "positions": ["top", "middle", "bottom"]
+    "positions": ["top"]
   },
   "signature_settings": {
     "width": 1.2,

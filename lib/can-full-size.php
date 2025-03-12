@@ -52,9 +52,12 @@ class CheckGenerator
         // cheque-specific variables
         $page_width = 8.5;
 
-        if ($config['paper']['used']) {
+        if ($config['paper']['used'] == 'double') {
             $page_height = 7.5;
             // Create a PDF with inches as the unit
+            $pdf = new FPDF('L', 'in', array($page_width, $page_height));
+        } else if ($config['paper']['used'] == 'single') {
+            $page_height = 4;
             $pdf = new FPDF('L', 'in', array($page_width, $page_height));
         } else {
             $page_height = 11;
@@ -67,8 +70,8 @@ class CheckGenerator
 
         $columns = 1;
         $gutter = 3 / 16;
-        $rows = 3; 
-        
+        $rows = 3;
+
         # measure distance from top to first perforation
         $label_height = $config['paper']['firstPerforationDistanceFromTop'];
         $label_width  = 8.5;
